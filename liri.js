@@ -1,79 +1,175 @@
 require("dotenv").config();
 
+var Spotify = require('node-spotify-api');
+
 var keys = require("./key.js");
 
-var spotify = new Spotify(keys.spotify)
+var spotify = new Spotify(keys.spotify);
 
 var axios = require("axios");
 
-// Grab the movieName which will always be the third node argument.
+var moment = require("moment");
+
+var dotenv = require("dotenv");
+
+var inquirer = require("inquirer");
+
+
+var fs = require("fs");
+
+
+// Grab the choice which will always be the third node argument.
+
 var choice = process.argv[2];
-// concert-this
 
+var actionName = process.argv.slice(3).join(" ");
 
+console.log(actionName);
 
+choices(choice,actionName);
 
-switch (action) {
-    case "total":
-      total();
-      break;
-  
-    case "deposit":
-      deposit();
-      break;
-  
-    case "withdraw":
-      withdraw();
-      break;
-  
-    case "lotto":
-      lotto();
-      break;
+function choices(choice, actionName)
+{
+switch (choice) {
+    case "concert-this":
+        concert(actionName);
+        break;
+
+    case "spotify-this-song":
+        spotifySong(actionName);
+        break;
+
+    case "movie-this":
+        movie(actionName);
+        break;
+
+    case "do-what-it-says":
+        says();
+        break;
     default:
-      console.log("I don't know what you want moron");
-      break;
-  }
+        console.log("I don't know what you want moron");
+        break;
+}
+}
 
-// ### What Each Command Should Do
+function concert(actionName) {
+    var queryUrl = "https://rest.bandsintown.com/artists/" + actionName + "/events?app_id=codingbootcamp";
+    console.log(queryUrl);
 
-// 1. `node liri.js concert-this <artist/band name here>`
+    axios.get(queryUrl).then(
+        function (response) {
+            console.log("Name : " + response.data[0].venue.name);
+            console.log("Location : " + response.data[0].venue.city + "," + response.data[0].venue.region);
+            console.log("Date : " + moment(response.data[0].datetime).format("MM/DD/YYYY"))
+        }
+    );
+}
 
-//    * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
+function spotifySong(actionName) {
 
-//      * Name of the venue
+    if (!actionName) {
+        actionName = "The Sign by Ace of Base";
+     
+    }
 
-//      * Venue location
+    spotify
+    .search({ type: 'track', query: actionName, limit:5 })
+  .then(function(data) {
+    var items = data.tracks.items;
+    for (let i = 0; i < items.length; i++ ) {
+        artistslist  = items[i].artists
+       
+        for(var j=0;j<artistslist.length;j++)
+        {
+            var  artist = items[i].artists[j].name;
+           
+           
+        }
+       // var artist = artistarr.slice(0).join(",");
+    
+     console.log(artist);
+      var songName = items[i].name;
+      var link = items[i].external_urls.spotify;
+      var album = items[i].album.name;
 
-//      * Date of the Event (use moment to format this as "MM/DD/YYYY")
+      console.log("- " + (i + 1) + " -");
+      console.log(`\tArtist(s): ${artist}`);
+      console.log(`\tSong Name: ${songName}`);
+      console.log(`\tLink: ${link}`);
+      console.log(`\tAlbum: ${album}`);
+    }
 
-
-
-// Then run a request with axios to the OMDB API with the movie specified
-var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
-
-// This line is just to help us debug against the actual URL.
-console.log(queryUrl);
-
-axios.get(queryUrl).then(
-  function(response) {
-    console.log("Release Year: " + response.data.Year);
-  }
-);
-
-axios
-  .get("http://www.omdbapi.com/?t=the+notebook&y=&plot=short&apikey=trilogy")
-  .then(function(response) {
-    // Then we print out the imdbRating
-    console.log("The movie's rating is: " + response.data.imdbRating);
+  })
+  .catch(function(err) {
+    console.log(err);
   });
+}
 
-// spotify-this-song
+function movie(actionName) {
+    if (!actionName) {
+        actionName = "Mr. Nobody";
+        console.log("If you haven't watched Mr. Nobody, then you should watch this \n It's on Netflix!");
+    }
+    var queryUrl = "http://www.omdbapi.com/?t=" + actionName + "&y=&plot=short&&tomatoes=true&apikey=trilogy";
+    console.log(queryUrl)
+    axios
+        .get(queryUrl)
+        .then(function (response) {
+            console.log("The movie's title is : " + response.data.Title);
+            console.log("The movie's year is : " + response.data.Year);
+            console.log("The movie's rating is : " + response.data.imdbRating);
+            let rtRating = response.data.Ratings
+              console.log(rtRating[1].Source);
+            for (var i = 0; i < rtRating.length; i++) {
+                if (rtRating[i].Source === 'Rotten Tomatoes') {
+                    console.log("Rotten Tomatoes Rating of the movie : " + rtRating[i].Value)
+                }
+            }
+            console.log("Country where the movie was produced is : " + response.data.Country);
+            console.log("Language of the movie is : " + response.data.Language);
+            console.log("Plot of the movie : " + response.data.Plot);
+            console.log("Actors in the movie : " + response.data.Actors);
+        });
+}
 
+function says() {
+    fs.readFile("./random.txt", "utf-8", function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log(data);
+        dataarr = data.split(",");
+        choice = dataarr[0];
+        console.log(choice);
+        var inquirer = require("inquirer");
+        inquirer
+            .prompt([
+                // Here we create a basic text prompt.
+                {
+                    type: "input",
+                    message: "What is the movie name/ Artist name?",
+                    name: "artname"
+                },
+                // Here we create a basic password-protected text prompt.
 
-
-
-// movie-this
-
-
-
-// do-what-it-says
+                // Here we ask the user to confirm.
+                {
+                    type: "confirm",
+                    message: "Are you sure:",
+                    name: "confirm",
+                    default: true
+                }
+            ])
+            .then(function (inquirerResponse) {
+                // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
+                if (inquirerResponse.confirm) {
+                    console.log(inquirerResponse.artname);
+                    actionName = inquirerResponse.artname;
+                    choices(choice, actionName);
+                }
+                else {
+                    console.log("come again when you are more sure.\n");
+                }
+            });
+    });
+}
