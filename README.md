@@ -8,9 +8,9 @@ movie-this command
 node liri.js movie-this '<movie name here>
 
   
-    * This will search the movie API (`"http://www.omdbapi.com/?t=" + actionName + "&y=&plot=short&&tomatoes=true&apikey=trilogy"`) for an movie and render the following information
+    * This will search the movie API (`"http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&&tomatoes=true&apikey=trilogy"`)
+    for an movie and render the following information
   
-
      ```
        * Title of the movie.
        * Year the movie came out.
@@ -39,6 +39,7 @@ Spotify-this command
 -------------------------------------------------------------------------------------------------------------------------------
 node liri.js spotify-this-song '<song name here>
 
+This will search for songs in spotify API( `"https://api.spotify.com/v1/tracks/"`)
    * This will show the following information about the song in your terminal/bash window
 
      * Artist(s)
