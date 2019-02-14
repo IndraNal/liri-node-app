@@ -5,7 +5,7 @@ https://github.com/IndraNal/liri-node-app/tree/master/img
 
 movie-this command
 -----------------------------------------------------------------------------------------------
-node liri.js movie-this '<movie name here>'`
+node liri.js movie-this '<movie name here>
 
    * This will output the following information to your terminal/bash window:
 
@@ -19,14 +19,11 @@ node liri.js movie-this '<movie name here>'`
        * Plot of the movie.
        * Actors in the movie.
        
- If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
----------------------------------------------------------------------------------------------------
+ If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.
 
 concert-this command
 ---------------------------------------------------------------------------------------------------------------------------------
-
-
-`node liri.js concert-this <artist/band name here>`
+node liri.js concert-this <artist/band name here>
 
    * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
 
@@ -36,10 +33,9 @@ concert-this command
 
      * Date of the Event (use moment to format this as "MM/DD/YYYY")
 -------------------------------------------------------------------------------------------------------------------------------------
-
 Spotify-this command
 -------------------------------------------------------------------------------------------------------------------------------
-`node liri.js spotify-this-song '<song name here>'`
+node liri.js spotify-this-song '<song name here>
 
    * This will show the following information about the song in your terminal/bash window
 
@@ -55,7 +51,7 @@ Spotify-this command
    ---------------------------------------------------------------------------------------------------------------------------------
    do-what-it-says command
    ----------------------------------------------------------------------------------------------------------------------------------
-   `node liri.js do-what-it-says`
+   node liri.js do-what-it-says
 
    * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
