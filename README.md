@@ -7,7 +7,9 @@ movie-this command
 -----------------------------------------------------------------------------------------------
 node liri.js movie-this '<movie name here>
 
-   * This will output the following information to your terminal/bash window:
+  
+    * This will search the movie API (`"http://www.omdbapi.com/?t=" + actionName + "&y=&plot=short&&tomatoes=true&apikey=trilogy"`) for an movie and render the following information
+  
 
      ```
        * Title of the movie.
@@ -26,12 +28,12 @@ concert-this command
 node liri.js concert-this <artist/band name here>
 
    * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
-
+  ```
      * Name of the venue
 
      * Venue location
 
-     * Date of the Event (use moment to format this as "MM/DD/YYYY")
+     * Date of the Event (use moment to format this as "MM/DD/YYYY")  ```
 -------------------------------------------------------------------------------------------------------------------------------------
 Spotify-this command
 -------------------------------------------------------------------------------------------------------------------------------
